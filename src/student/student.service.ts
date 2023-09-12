@@ -53,6 +53,10 @@ export class StudentService {
     return await this.studentModel.find();
   }
 
+  async findBySubject(subject: string) {
+    return await this.studentModel.find({ 'subjects.title': subject })
+  }
+
   async findOne(id: string) {
     return await this.studentModel.findOne({ uuid: id });
   }

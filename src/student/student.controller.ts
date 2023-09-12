@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
 import { CreateStudentDto } from './dto/create-student.dto';
@@ -23,6 +24,11 @@ export class StudentController {
   @Get()
   findAll() {
     return this.studentService.findAll();
+  }
+
+  @Get('filter')
+  findBySubject(@Query('subject') subject: string) {
+    return this.studentService.findBySubject(subject);
   }
 
   @Get(':id')
