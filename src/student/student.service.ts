@@ -58,15 +58,36 @@ export class StudentService {
   }
 
   async findOne(id: string) {
-    return await this.studentModel.findOne({ uuid: id });
+    return await this.studentModel.findOne({ _id: id });
   }
 
   async update(id: string, updateStudentDto: UpdateStudentDto) {
-    await this.studentModel.updateOne({ uuid: id }, updateStudentDto);
+    const candidate = await this.studentModel.findOne({ _id: id })
 
-    return {
-      message: 'success update',
-    };
+    if (!candidate) {
+      throw new BadRequestException('Студент не найден')
+    }
+
+    const subjectForStudent = [];
+    if (updateStudentDto.subjects) {
+      for (const subject of updateStudentDto.subjects) {
+        const subjectCandidate = await this.subjectModel.findOne({
+          title: subject,
+        });
+        subjectForStudent.push(subjectCandidate);
+      }
+    }
+
+    if (subjectForStudent.length) {
+      const updatedStudent = {...updateStudentDto, subjects: subjectForStudent}
+
+      await this.studentModel.updateOne({ _id: id }, updatedStudent);
+    } else {
+      await this.studentModel.updateOne({ _id: id }, updateStudentDto);
+    }
+
+    
+    return await this.studentModel.findOne({ _id: id })
   }
 
   async remove(id: string) {

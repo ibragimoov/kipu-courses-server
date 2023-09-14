@@ -8,6 +8,8 @@ export class CreateStudentDto {
   readonly email: string;
   readonly phone: string;
 
+  readonly status: string;
+
   readonly subjects: string[];
   readonly study_from: string;
 }
