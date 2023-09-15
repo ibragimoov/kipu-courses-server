@@ -54,7 +54,12 @@ export class StudentService {
   }
 
   async findBySubject(subject: string) {
-    return await this.studentModel.find({ 'subjects.title': subject })
+    return await this.studentModel.find(
+      { 
+        'subjects.title': subject,
+        status: { $ne: 'Новая заявка' } 
+      }
+    )
   }
 
   async findOne(id: string) {
