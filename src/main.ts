@@ -8,8 +8,8 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.enableCors({ origin: 'http://localhost:3000' });
+  app.enableCors({ origin: process.env.REACT_APP_URL });
 
-  await app.listen(5000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();
