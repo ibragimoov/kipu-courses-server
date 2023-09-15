@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
-  app.enableCors({ origin: process.env.REACT_APP_URL });
+  app.enableCors({ origin: '*' });
 
   await app.listen(process.env.PORT);
 }
